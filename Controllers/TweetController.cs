@@ -33,12 +33,32 @@ namespace TwitterClone.Controllers
         }
 
         [HttpPost]
-        public void CreateTweet([FromBody]Tweet tweet)
+        public IActionResult CreateTweet([FromBody]TweetDTO tweet)
         {
             if (ModelState.IsValid)
             {
-                _rep.CreateTweet(tweet);
+                try
+                {
+                    Tweet newTweet = new Tweet() { UserId = tweet.UserId, Message = tweet.Message, PostedTime = DateTime.Now};
+                    _rep.CreateTweet(newTweet);
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
             }
+            else
+            {
+                return BadRequest();
+            }
+                    return Ok();
+        }
+
+        [HttpPost]
+        [Route("{id}")]
+        public void UpdateLike(int id)
+        {
+            _rep.UpdateLike(id);
         }
 
         [HttpPut]

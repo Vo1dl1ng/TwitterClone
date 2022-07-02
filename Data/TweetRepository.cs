@@ -26,6 +26,16 @@ namespace TwitterClone.Data
             }
         }
 
+        public void UpdateLike(int id)
+        {
+            using (var db = _db)
+            {
+               Tweet likedTweet = db.Tweets.Where(x => x.Id == id).FirstOrDefault();
+                likedTweet.Likes += 1;
+                db.SaveChanges();
+            }
+        }
+
         public Tweet UpdateTweet(int id, Tweet tweet)
         {
             Tweet tweetToUpdate;
